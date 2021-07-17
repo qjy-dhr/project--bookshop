@@ -9,14 +9,24 @@ import java.util.List;
 public class Test {
     public static void main(String[] args) {
 
+        int id=1;
+        String book_name="lucky";
+        double price=10.3;
+        String author="aurhor4";
+        Book tempbook =new Book(id,book_name,price,author);
 
         BookDao bookdao=new BookDaoImpl();
+
         List<Book> list=new ArrayList<>();
-        list = bookdao.findByName("lucky");
-        System.out.println(list.isEmpty());
+
+
+
+        System.out.println(bookdao.insert(tempbook)) ;
+        list = bookdao.findAll();
         for(Book book:list){
             System.out.println(book);
         }
+
 
     }
 

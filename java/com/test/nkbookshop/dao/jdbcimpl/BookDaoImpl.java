@@ -71,21 +71,39 @@ public class BookDaoImpl extends GenericBaseDao implements BookDao {
         return books;
     }
 
-    @Override
+    @Override//若书在书库里，则返回1，若不在，则返回1
     public int insert(Book book) {
-        int res=-1;
-       // Book.count++;
-        try {
-            this.getConnection();
-            String sql="insert into mydb.books values(null,?,?,?)";
-            this.execteUpdate(sql,book.getName(),book.getPrice(),book.getAuthor());
-            res=result;
-            this.closeALL(rs,pstmt,conn);
-        } catch (SQLException e) {
-            e.printStackTrace();
+        Book book1=null;
+        book1=findById(book.getId());
+        List<Book> list=new ArrayList<>();
+
+        list=this.findByName(book.getName());
+
+        if(!list.isEmpty()){//代表书库已经有该书了
+            return 1;
+        }
+       else if(book1!=null){//代表主键重复
+
+            return -1;
+        }
+        else{
+
+            int res=-1;
+            // Book.count++;
+            try {
+                this.getConnection();
+                String sql="insert into mydb.books values(?,?,?,?)";
+                this.execteUpdate(sql,book.getId(),book.getName(),book.getPrice(),book.getAuthor());
+                res=result;
+                this.closeALL(rs,pstmt,conn);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            return res;
+
         }
 
-        return res;
     }
 
     @Override
@@ -94,7 +112,7 @@ public class BookDaoImpl extends GenericBaseDao implements BookDao {
         try {
             this.getConnection();
             String sql="update mydb.books set book_name=?,price=?,author=? where id=?";
-            this.execteUpdate(sql,book.getName(),book.getPrice(),book.getAuthor());
+            this.execteUpdate(sql,book.getName(),book.getPrice(),book.getAuthor(),book.getId());
             res=result;
             this.closeALL(rs,pstmt,conn);
         } catch (SQLException e) {
@@ -106,23 +124,24 @@ public class BookDaoImpl extends GenericBaseDao implements BookDao {
 
     @Override
     public int delete(Integer id) {
-        int res=-1;
-//        if(Book.count<=0){
-//
-//            return res;
-//        }
-//       else
-        try {
-            this.getConnection();
-            String sql="delete from mydb.books where book_id=?";
-            this.execteUpdate(sql,id);
-            res=result;
-            this.closeALL(rs,pstmt,conn);
-        } catch (SQLException e) {
-            e.printStackTrace();
+        Book book=null;
+        book=findById(id);
+        if(book==null){
+            return -1;
         }
 
-        return res;
+//        int res=-1;
+//        try {
+//            this.getConnection();
+//            String sql="delete from mydb.books where book_id=?";
+//            this.execteUpdate(sql,id);
+//            res=result;
+//            this.closeALL(rs,pstmt,conn);
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+
+       else  return 1;
     }
 
     @Override
@@ -158,19 +177,21 @@ public class BookDaoImpl extends GenericBaseDao implements BookDao {
 
     @Override
     public int delete(String name) {
-        int res = -1;
-        int temp = 0;
+//        int res = -1;
+//        int temp = 0;
         List<Book> list=new ArrayList<>();
         list=this.findByName(name);
-if(list.isEmpty()){
+        if(list.isEmpty()){
 
     return -1;
-}
-else{
-    for(Book book:list){
-        temp=book.getId();
+         }
+      else{
+//    for(Book book:list){
+//        temp=book.getId();
+            return 1;
     }
-    return  this.delete(temp);
-}
+  //  return  this.delete(temp);
+//}
     }
+
 }

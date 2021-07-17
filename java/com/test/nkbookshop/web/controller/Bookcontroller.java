@@ -26,9 +26,11 @@ public class Bookcontroller {
         //调用下一层（业务逻辑层）
         boolean res=bookservice.back(book);
         if(res)
-            return "book "+book.getName()+" back success";
+            return "book 《"+book.getName()+"》 back success";
+
         else
-            return "book "+book.getName()+" back fail";
+
+            return "book 《"+book.getName()+"》 back fail";
 
     }
     //2.借书
@@ -37,9 +39,9 @@ public class Bookcontroller {
         //调用下一层（业务逻辑层）
         boolean res=bookservice.borrow(book.getName());
         if(res)
-            return "book "+book.getName()+" borrow success";
+            return "book 《"+book.getName()+"》 borrow success";
         else
-            return "book "+book.getName()+" borrow fail";
+            return "book 《"+book.getName()+"》 borrow fail";
 
     }
     public List<Book> showAllBooks(){

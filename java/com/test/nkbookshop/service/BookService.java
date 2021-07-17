@@ -7,7 +7,7 @@ import java.util.List;
 public interface BookService {
 
 
-   boolean back(Book book);//还书
+    boolean  back(Book book);//还书
      boolean borrow(String name);//借书
 
     //boolean modify(Book book);//更新

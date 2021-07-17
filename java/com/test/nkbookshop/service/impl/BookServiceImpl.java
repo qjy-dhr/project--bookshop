@@ -14,16 +14,8 @@ public class BookServiceImpl implements BookService {
     public boolean back(Book book) {
         boolean res=false;
         int result=-1;
-//        Book exitUser =bookdao.findByName(book.getUsn());
-//        if(exitUser!=null){
-//            result=bookdao.insert(book);
-//            if(result==1)
-//                res=true;
-//            return res;
-//
-//        }
         if(book!=null)
-            result=bookdao.insert(book);
+        result=bookdao.insert(book);
         if(result==1)
             res=true;
         return res;

@@ -48,12 +48,6 @@ public class Book implements Serializable {
         this.author = author;
     }
 
-    public Book(String name, double price, String author) {
-        this.name = name;
-        this.price = price;
-        this.author = author;
-    }
-
     public Book(String name) {
         this.name = name;
     }
